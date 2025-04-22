@@ -1,0 +1,5 @@
+Chào {{ name }}!
+
+Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.
+
+– Warm‑Up Team

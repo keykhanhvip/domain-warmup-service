@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block title %}Quản lý Domains{% endblock %}
+{% block content %}
+<h2 class="mb-4">Quản lý Domains</h2>
+
+<table class="table table-striped table-hover align-middle">
+  <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Domain</th>
+      <th>SMTP</th>
+      <th>IMAP</th>
+      <th>Trạng thái</th>
+      <th class="text-center">Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for domain in domains %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ domain.name }}</td>
+      <td>{{ domain.smtp_host }}:{{ domain.smtp_port }}</td>
+      <td>{{ domain.imap_host or '-' }}:{{ domain.imap_port or '-' }}</td>
+      <td>
+        {% if domain.status=='warming' %}
+          <span class="badge bg-success">Warming</span>
+        {% elif domain.status=='paused' %}
+          <span class="badge bg-warning">Paused</span>
+        {% else %}
+          <span class="badge bg-secondary">Idle</span>
+        {% endif %}
+      </td>
+      <td class="text-center">
+        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse"
+                data-bs-target="#sendForm{{domain.id}}" title="Gửi thử">
+          <i class="bi bi-envelope"></i>
+        </button>
+        <a href="{{ url_for('domains.delete', did=domain.id) }}"
+           class="btn btn-sm btn-outline-danger" title="Xóa"
+           onclick="return confirm('Xóa domain này?');">
+          <i class="bi bi-trash"></i>
+        </a>
+      </td>
+    </tr>
+    <tr class="collapse" id="sendForm{{domain.id}}">
+      <td colspan="6">
+        <form action="{{ url_for('domains.send_test', did=domain.id) }}" method="post" class="row g-2">
+          <div class="col-md-4">
+            <input name="subject" class="form-control form-control-sm" placeholder="Tiêu đề" required>
+          </div>
+          <div class="col-md-5">
+            <input name="body" class="form-control form-control-sm" placeholder="Nội dung" required>
+          </div>
+          <div class="col-md-3 text-end">
+            <button class="btn btn-sm btn-primary">Gửi thử</button>
+          </div>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<hr>
+
+<h4 class="mt-5">Thêm Domain Mới</h4>
+<form method="post" class="row g-3">
+  <div class="col-md-4">
+    {{ form.name.label(class="form-label") }}
+    {{ form.name(class="form-control") }}
+  </div>
+  <div class="col-md-4">
+    {{ form.smtp_host.label(class="form-label") }}
+    {{ form.smtp_host(class="form-control") }}
+  </div>
+  <div class="col-md-2">
+    {{ form.smtp_port.label(class="form-label") }}
+    {{ form.smtp_port(class="form-control") }}
+  </div>
+  <div class="col-md-2 align-self-end">
+    {{ form.submit(class="btn btn-success") }}
+  </div>
+
+  <div class="col-md-4">
+    {{ form.imap_host.label(class="form-label") }}
+    {{ form.imap_host(class="form-control") }}
+  </div>
+  <div class="col-md-2">
+    {{ form.imap_port.label(class="form-label") }}
+    {{ form.imap_port(class="form-control") }}
+  </div>
+  <div class="col-md-6">
+    {{ form.imap_user.label(class="form-label") }}
+    {{ form.imap_user(class="form-control") }}
+  </div>
+</form>
+{% endblock %}

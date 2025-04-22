@@ -1,0 +1,12 @@
+# python venv
+venv/
+
+# byte-compiled / caches
+__pycache__/
+*.py[cod]
+
+# sqlite db
+db.sqlite3
+
+# environment files
+.env

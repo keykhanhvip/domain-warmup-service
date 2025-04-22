@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for
 from config import Config
 from .extensions import db, migrate, login_manager
 from .auth import auth_bp
+from .warmup_bp import warmup_bp
 from .email_templates_bp import template_bp
 from .tracking_bp import tracking_bp
 from .models import EmailTemplate
@@ -29,4 +30,5 @@ def create_app():
         # redirect to login page by default
         return redirect(url_for("auth.login"))
 
+        app.register_blueprint(warmup_bp)
     return app

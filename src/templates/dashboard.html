@@ -6,7 +6,7 @@
     <li><a href="{{ url_for('templates.list_templates') }}">📧 Gửi thư theo Template</a></li>
     <li><a href="{{ url_for('tracking.report') }}">📊 Tracking mở thư & thống kê</a></li>
     <li><a href="{{ url_for('dashboard.report') }}">📈 Báo cáo & Thống kê</a></li>
-    <li><a href="{{ url_for('domain.list_add') }}">🌐 Quản lý Domain & IP</a></li>
+    <li><a href="{{ url_for('domains.list_add') }}">🌐 Quản lý Domain & IP</a></li>
     <li><a href="{{ url_for('warmup.schedule') }}">🔥 Auto Warm-up</a></li>
     {% if session.get('role') == 'admin' %}
     <li><a href="{{ url_for('user_management.index') }}">👥 Quản lý người dùng</a></li>

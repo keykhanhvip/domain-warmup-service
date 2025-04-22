@@ -24,3 +24,14 @@ def track(uid):
             log.open_count += 1
         db.session.commit()
     return send_file(io.BytesIO(_pixel), mimetype="image/png")
+
+
+from flask import render_template
+from .models import EmailTrack
+from .extensions import db
+
+@tracking_bp.route("/report")
+def report():
+    # Lấy thống kê cơ bản từ bảng EmailTrack
+    total_tracks = EmailTrack.query.count()
+    return render_template("tracking_report.html", total_tracks=total_tracks)

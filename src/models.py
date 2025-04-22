@@ -8,6 +8,10 @@ class User(UserMixin, db.Model):
     id       = db.Column(db.Integer, primary_key=True)
     email    = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    role     = db.Column(db.String(20), default='client')
+    daily_quota = db.Column(db.Integer, default=200)
+    emails_sent_today = db.Column(db.Integer, default=0)
+    last_sent_at = db.Column(db.DateTime)
     domains  = db.relationship("Domain", backref="owner", lazy=True)
 
     def set_password(self, pwd):
@@ -18,7 +22,7 @@ class User(UserMixin, db.Model):
 class Domain(db.Model):
     __tablename__ = "domains"
     id          = db.Column(db.Integer, primary_key=True)
-    owner_id    = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    user_id     = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     name        = db.Column(db.String(255), nullable=False)
     smtp_host   = db.Column(db.String(255)); smtp_port = db.Column(db.Integer)
     smtp_user   = db.Column(db.String(255)); smtp_pass = db.Column(db.String(255))

@@ -12,7 +12,13 @@ def index():
     today = date.today()
     results = (db.session.query(WarmupLog, Domain.name.label("name"))
                .join(Domain, WarmupLog.domain_id == Domain.id)
-               .filter(Domain.owner_id == current_user.id,
+               .filter(Domain.user_id == current_user.id,
                        WarmupLog.send_date == today)
                .all())
     return render_template("dashboard.html", logs=results, date=today)
+
+
+@dashboard_bp.route("/report")
+@login_required
+def report():
+    return render_template("report.html")

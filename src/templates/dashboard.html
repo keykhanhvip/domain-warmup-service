@@ -1,24 +1,20 @@
+
 {% extends "layout.html" %}
-{% block title %}Dashboard{% endblock %}
 {% block content %}
-<h2 class="mb-4">Báo cáo hôm nay ({{ date }})</h2>
-<table class="table table-bordered align-middle">
-  <thead class="table-light">
-    <tr>
-      <th>Domain</th><th>Gửi</th><th>Open</th><th>Bounce</th><th>Unsub</th><th>Complaint</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for log, name in logs %}
-    <tr>
-      <td>{{ name }}</td>
-      <td>{{ log.sent_count }}</td>
-      <td>{{ log.open_count }}</td>
-      <td>{{ log.bounce_count }}</td>
-      <td>{{ log.unsub_count }}</td>
-      <td>{{ log.complaint_count }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<h1>🎛 Bảng điều khiển</h1>
+<ul class="nav-list">
+    <li><a href="{{ url_for('templates.list_templates') }}">📧 Gửi thư theo Template</a></li>
+    <li><a href="{{ url_for('tracking.report') }}">📊 Tracking mở thư & thống kê</a></li>
+    <li><a href="{{ url_for('dashboard.report') }}">📈 Báo cáo & Thống kê</a></li>
+    <li><a href="{{ url_for('domain.list_add') }}">🌐 Quản lý Domain & IP</a></li>
+    <li><a href="{{ url_for('warmup.schedule') }}">🔥 Auto Warm-up</a></li>
+    {% if session.get('role') == 'admin' %}
+    <li><a href="{{ url_for('user_management.index') }}">👥 Quản lý người dùng</a></li>
+    {% endif %}
+</ul>
+<style>
+    .nav-list { list-style: none; padding-left: 0; }
+    .nav-list li { margin-bottom: 10px; }
+    .nav-list a { font-size: 18px; text-decoration: none; color: #007bff; }
+</style>
 {% endblock %}

@@ -5,6 +5,7 @@ from pathlib import Path
 root = Path(__file__).parent.parent.resolve()
 sys.path.append(str(root))
 
+from src import models
 from src import create_app
 from src.extensions import db
 
